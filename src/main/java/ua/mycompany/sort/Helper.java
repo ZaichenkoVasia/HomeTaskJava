@@ -18,9 +18,15 @@ public final class Helper {
         return array;
     }
 
-    public static void outputArray(Sort sort) {
-        System.out.println(Arrays.toString(sort.getArray()));
-        sort.sort();
-        System.out.println(Arrays.toString(sort.getArray()) + "\n");
+    public static void outputArray(Sort sort, int[] array) {
+        System.out.println(Arrays.toString(array));
+        sort.sort(array);
+        System.out.println(Arrays.toString(array) + "\n");
+    }
+
+    public static void swap(int element1, int element2, int[] array) {
+        int temp = array[element1];
+        array[element1] = array[element2];
+        array[element2] = temp;
     }
 }

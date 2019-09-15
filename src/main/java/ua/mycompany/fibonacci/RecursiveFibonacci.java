@@ -1,14 +1,12 @@
 package ua.mycompany.fibonacci;
 
-import javax.xml.bind.ValidationException;
-
 public class RecursiveFibonacci implements Fibonacci {
     public RecursiveFibonacci() {
     }
 
     @Override
     public int getValueFibonacci(int number) {
-        if(number < 0)
+        if (number < 0)
             throw new UnsupportedOperationException();
         if (number == 0) {
             return 0;

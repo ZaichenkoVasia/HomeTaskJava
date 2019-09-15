@@ -1,13 +1,18 @@
 package ua.mycompany.contractEH;
 
-public class Main {
-    public static void main(String[] args) {
-        Phone phone1 = new Phone("Nokia", 1000, true);
-        Phone phone2 = new Phone("Phone", 1000, true);
-        
-        System.out.println("This phones equals? " + phone1.equals(phone2));
-        boolean hashCodeSimilar = phone1.hashCode() == phone2.hashCode();
-        System.out.println("Their hash codes equals? " + hashCodeSimilar);
-    }
+import com.sun.media.sound.InvalidDataException;
 
+public class Main {
+    public static void main(String[] args) throws InvalidDataException {
+
+        Address address = new Address("Kiev", 20020);
+        User den = new User("Den", "Den", 20, true, address);
+        User tim = new User("Tim", "Tim", 20, true, address);
+        System.out.println("This user equals? " + den.equals(tim));
+        boolean hashCodeSimilar = den.hashCode() == tim.hashCode();
+        System.out.println("Their hash codes equals? " + hashCodeSimilar);
+        System.out.println(den);
+        address.setCity("no Kiev");
+        System.out.println(den);
+    }
 }

@@ -1,21 +1,19 @@
 package ua.mycompany.sort;
 
-public class QuickSort extends Sort {
+import static ua.mycompany.sort.Helper.swap;
 
-    public QuickSort(int[] array) {
-        super(array);
-    }
+public class QuickSort implements Sort {
 
     @Override
-    public void sort() {
-        if (this.array == null) {
+    public void sort(int[] array) {
+        if (array == null) {
             throw new NullPointerException();
         } else {
-            quickSort(0, this.array.length - 1);
+            quickSort(0, array.length - 1, array);
         }
     }
 
-    private void quickSort(int low, int high) {
+    private void quickSort(int low, int high, int[] array) {
         int i = low, j = high;
         int pivot = array[low + (high - low) / 2];
 
@@ -23,14 +21,13 @@ public class QuickSort extends Sort {
             while (array[i] < pivot) i++;
             while (array[j] > pivot) j--;
             if (i <= j) {
-                swap(i, j);
+                swap(i, j, array);
                 i++;
                 j--;
             }
         }
 
-        if (low < j) quickSort(low, j);
-        if (high > i) quickSort(i, high);
+        if (low < j) quickSort(low, j, array);
+        if (high > i) quickSort(i, high, array);
     }
 }
-
