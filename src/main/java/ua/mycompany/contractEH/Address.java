@@ -2,15 +2,19 @@ package ua.mycompany.contractEH;
 
 import com.sun.media.sound.InvalidDataException;
 
+import javax.xml.bind.ValidationException;
+
 public class Address {
     private String city;
     private int code;
 
-    public Address(String city, int code) throws InvalidDataException {
-        if (code < 0)
-            throw new InvalidDataException();
-        if (city == null)
-            throw new NullPointerException();
+    public Address(String city, int code) throws ValidationException {
+        if (city == null) {
+            throw new ValidationException("City can not be null");
+        }
+        if (code < 0) {
+            throw new IllegalArgumentException();
+        }
         this.city = city;
         this.code = code;
     }
@@ -19,9 +23,10 @@ public class Address {
         return city;
     }
 
-    public Address setCity(String city) throws InvalidDataException {
-        if (city == null)
-            throw new NullPointerException();
+    public Address setCity(String city) throws ValidationException {
+        if (city == null) {
+            throw new IllegalArgumentException();
+        }
         return new Address(city, code);
     }
 
@@ -29,9 +34,10 @@ public class Address {
         return code;
     }
 
-    public Address setCode(int code) throws InvalidDataException {
-        if (code < 0)
-            throw new InvalidDataException();
+    public Address setCode(int code) throws ValidationException {
+        if (code < 0) {
+            throw new IllegalArgumentException();
+        }
         return new Address(city, code);
     }
 

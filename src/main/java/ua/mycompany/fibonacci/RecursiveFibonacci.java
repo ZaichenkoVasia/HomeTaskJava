@@ -6,8 +6,9 @@ public class RecursiveFibonacci implements Fibonacci {
 
     @Override
     public int getValueFibonacci(int number) {
-        if (number < 0)
-            throw new UnsupportedOperationException();
+        if (number < 0) {
+            throw new IllegalArgumentException();
+        }
         if (number == 0) {
             return 0;
         } else if (number == 1) {

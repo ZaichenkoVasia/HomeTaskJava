@@ -6,8 +6,9 @@ public class NotRecursiveFibonacci implements Fibonacci {
 
     @Override
     public int getValueFibonacci(int number) {
-        if (number < 0)
-            throw new UnsupportedOperationException();
+        if (number < 0) {
+            throw new IllegalArgumentException();
+        }
         int fibonacci1 = 0;
         int fibonacci2 = 1;
         for (int i = 2; i <= number; ++i) {

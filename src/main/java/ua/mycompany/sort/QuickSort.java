@@ -6,11 +6,7 @@ public class QuickSort implements Sort {
 
     @Override
     public void sort(int[] array) {
-        if (array == null) {
-            throw new NullPointerException();
-        } else {
             quickSort(0, array.length - 1, array);
-        }
     }
 
     private void quickSort(int low, int high, int[] array) {

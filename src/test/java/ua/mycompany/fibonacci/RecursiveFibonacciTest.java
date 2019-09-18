@@ -14,7 +14,7 @@ public class RecursiveFibonacciTest {
         assertEquals(expected, actual);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void throwExceptionIncorrectFibonacci() {
         Fibonacci fibonacci = new NotRecursiveFibonacci();
         fibonacci.getValueFibonacci(-6);

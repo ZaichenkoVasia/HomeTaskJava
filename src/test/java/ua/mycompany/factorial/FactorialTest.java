@@ -16,7 +16,7 @@ public class FactorialTest {
         assertEquals(expected, actual);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void throwExceptionIncorrectFactorial() {
         BigInteger number = BigInteger.valueOf(-3);
         Factorial.factorial(number);
