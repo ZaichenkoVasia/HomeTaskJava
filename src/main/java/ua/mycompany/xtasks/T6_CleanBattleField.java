@@ -2,7 +2,6 @@ package ua.mycompany.xtasks;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
 
 public class T6_CleanBattleField extends JPanel
 {
@@ -42,21 +41,43 @@ public class T6_CleanBattleField extends JPanel
 
     void runTheGame() throws Exception
     {
-        printCurrentBattleField();
-
         clean();
     }
 
     /**
      *
      *  When method called tank should destroy all the objects on battle field in less then 30 seconds.
-     *
+     * 1- top, 2 - right, 3 - down, 4 - left
+     *  String yLine="ABCDEFGHI";
      */
     void clean()
     {
-        // TODO YOUR CODE HERE
-    }
+        int counterDirection=0;
+        int[] directionOfClean = {1, 2, 4};
+        String[] moveDirection={"H3","G3","F3","E3","D3","C3","B3","A3"};
+        while (true)
+        {
+            for (String s : moveDirection) {
 
+                for (int direction : directionOfClean) {
+                    if (counterDirection != 3) {
+                        tankDirection = direction;
+                        sleep(100);
+                        fire();
+                        counterDirection++;
+                    } else {
+                        tankDirection = direction;
+                        if (tankDirection != 1) {
+                            sleep(100);
+                            fire();
+                        }
+
+                    }
+                }
+                moveToQuadrant(s);
+            }
+        }
+    }
 
     /**
      *
@@ -69,7 +90,57 @@ public class T6_CleanBattleField extends JPanel
      */
     void fire()
     {
-        // TODO SHOULD BE ALREADY IMPLEMENTED
+        //directions
+        // 1- top, 2 - right, 3 - down, 4 - left
+
+        if (tankDirection==1){
+            bulletX=tankX+25;
+            bulletY=tankY;
+            while (bulletY>0 && bulletY <BF_HEIGHT){
+                bulletY--;
+                if(bulletY % 64 == 0 ){
+                    checkAndProcessInterception();
+                    repaint();
+                }
+                sleep(2);
+
+
+            }
+        }else if(tankDirection==2){
+            bulletX=tankX+35;
+            bulletY=tankY+25;
+            while (bulletX>0 && bulletX<BF_HEIGHT-64){
+                sleep(2);
+                bulletX++;
+                if(bulletX % 64 == 0 ){
+                    checkAndProcessInterception();
+                    repaint();
+                }
+
+            }
+        }else if(tankDirection==3){
+            bulletX=tankX+25;
+            bulletY=tankY+35;
+            while (bulletY<BF_HEIGHT-64 && bulletY >0){
+                sleep(2);
+                bulletY++;
+                if(bulletY % 64 == 0 ){
+                    checkAndProcessInterception();
+                    repaint();
+                }
+            }
+        }else if(tankDirection==4){
+            bulletX=tankX+5;
+            bulletY=tankY+25;
+            while (bulletX>0 && bulletX<BF_WIDTH){
+                sleep(2);
+                bulletX--;
+                if(bulletX % 64 == 0){
+                    checkAndProcessInterception();
+                    repaint();
+                }
+            }
+        }
     }
 
     /**
@@ -79,16 +150,14 @@ public class T6_CleanBattleField extends JPanel
      */
     private boolean checkAndProcessInterception()
     {
-        // TODO SHOULD BE ALREADY IMPLEMENTED
-        return false;
-    }
+        int[] bulletPos=getQuadrant(bulletX,bulletY);
 
-    private void printCurrentBattleField()
-    {
-        for (String[] row : battleField)
-        {
-            System.out.println(Arrays.toString(row));
-        }
+        if (battleField[bulletPos[1]][bulletPos[0]].equalsIgnoreCase("B")){
+            battleField[bulletPos[1]][bulletPos[0]]="";
+
+            return true;
+        }else
+            return false;
     }
 
     int[] getQuadrant(int x, int y)
@@ -96,9 +165,106 @@ public class T6_CleanBattleField extends JPanel
         return new int[] {x / 64, y / 64};
     }
 
+
+    void moveToQuadrant(String quadrant)
+    {
+        //Getting Y position
+        //get char from quadrant - for getting x position
+        char yChar= quadrant.toUpperCase().charAt(0);
+        String yLine="ABCDEFGHI";
+        int yPos = (yLine.indexOf(yChar,0) * 64);
+
+        //Getting X position
+        int  xPos=Integer.parseInt(quadrant.substring(1));
+        xPos*=64;
+        xPos-=64;
+
+        while (tankX!=xPos) {
+            if (tankX<xPos) {
+                move(2);
+            }
+            else if(tankX>xPos) {
+                move(4);
+            }
+            else{
+                break;
+            }
+        }
+
+
+        while (tankY!=yPos) {
+            if (tankY<yPos) {
+                move(3);
+            }
+            else if(tankY>yPos) {
+                move(1);
+            }
+            else{
+                break;
+            }
+        }
+    }
+
     void move(int direction)
     {
-        // TODO SHOULD BE ALREADY IMPLEMENTED
+        if (direction==2){
+            if(tankX<=512){
+                moveRight();
+            }
+        }
+        else if (direction==4){
+            if (tankX>=64) {
+                moveLeft();
+            }
+        }
+        else if (direction==1) {
+            if (tankY >= 64) {
+                moveUp();
+            }
+        }
+        else if (direction==3) {
+            if (tankY <= 512) {
+                moveDown();
+            }
+        }
+        repaint();
+    }
+
+    private void moveDown() {
+        int stopTank = tankY + 64;
+        while (tankY < stopTank) {
+            sleep(10);
+            tankY += 1;
+            repaint();
+        }
+    }
+
+    private void moveUp() {
+        int stopTank = tankY - 64;
+        while (tankY > stopTank) {
+            sleep(10);
+            tankY -= 1;
+            repaint();
+        }
+
+    }
+
+    void moveLeft() {
+        int stopTank = tankX - 64;
+        while (tankX > stopTank) {
+            sleep(10);
+            tankX -= 1;
+            repaint();
+        }
+    }
+
+    void moveRight() {
+        int stopTank = tankX + 64;
+        while (tankX < stopTank) {
+            sleep(10);
+            tankX += 1;
+            repaint();
+        }
     }
 
     void turn(int direction)
